@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:name="com.vishnus1224.Dicto"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme = "@android:style/Theme.NoDisplay">
         <activity android:name=".ui.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
