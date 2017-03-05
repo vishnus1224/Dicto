@@ -41,6 +41,10 @@ class FloatingInputService : Service() {
         createInputBox()
     }
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        return Service.START_NOT_STICKY;
+    }
+
     private fun setupServices() {
 
         windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager;
@@ -80,6 +84,12 @@ class FloatingInputService : Service() {
 
         Toast.makeText(this, "click", Toast.LENGTH_SHORT).show()
 
+    }
+
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        super.onTaskRemoved(rootIntent)
+
+        stopSelf()
     }
 
     override fun onDestroy() {
