@@ -14,7 +14,7 @@ import android.view.WindowManager
 import android.view.WindowManager.LayoutParams.*
 import android.widget.EditText
 import android.widget.Toast
-import com.vishnus1224.dicto.event.copyText
+import com.vishnus1224.dicto.event.copyWord
 import com.vishnus1224.dicto.viewmodel.MainViewModel
 import io.reactivex.disposables.CompositeDisposable
 
@@ -95,7 +95,7 @@ class FloatingInputService : Service() {
     private fun listenForCopyEvent() {
 
         //subscribe to the copy event to get notified when user copies a word from any app.
-        disposer.add(copyText(this).subscribe { copiedText ->
+        disposer.add(copyWord(this).subscribe { copiedText ->
 
             viewModel.onCopyEventReceived(copiedText)
 

@@ -12,10 +12,10 @@ import android.content.Context.CLIPBOARD_SERVICE
  */
 
 /**
- * Whenever user copies text from any of the apps and if the event has not already been emitted i.e it is unique,
+ * Whenever user copies one word from any of the apps and if the event has not already been emitted i.e it is unique,
  * then observers will get notified of this event.
  */
-fun copyText(context: Context) : Observable<String> {
+fun copyWord(context: Context) : Observable<String> {
 
     val event : Observable<String> =  Observable.create { observer ->
 
@@ -40,7 +40,9 @@ fun copyText(context: Context) : Observable<String> {
 
     }
 
-    return event.distinct()
+    //filter the event to make sure copying more than one word does not propagate through.
+    return event.filter { copiedText ->
+        copiedText.split(" ").size == 1 }.distinct()
 
 }
 
