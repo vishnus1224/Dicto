@@ -14,6 +14,8 @@ import android.view.WindowManager
 import android.view.WindowManager.LayoutParams.*
 import android.widget.EditText
 import android.widget.Toast
+import com.vishnus1224.dicto.event.copyText
+import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Service that will have a view to get input from the user.
@@ -27,6 +29,8 @@ class FloatingInputService : Service() {
 
     lateinit var inflater : LayoutInflater
 
+    val disposer = CompositeDisposable()
+
     override fun onBind(intent: Intent?): IBinder? {
 
         return null;
@@ -39,6 +43,9 @@ class FloatingInputService : Service() {
         setupServices();
 
         createInputBox()
+
+        listenForCopyEvent();
+
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -73,6 +80,17 @@ class FloatingInputService : Service() {
         windowManager.addView(inputBox, params)
     }
 
+    private fun listenForCopyEvent() {
+
+        //subscribe to the copy event to get notified when user copies a word from any app.
+        disposer.add(copyText(this).subscribe {copiedText ->
+
+            Toast.makeText(this, copiedText, Toast.LENGTH_SHORT).show()
+
+        })
+
+    }
+
     private fun onInputBoxLongClick(v: View): Boolean {
 
         Toast.makeText(this, "long", Toast.LENGTH_SHORT).show()
@@ -96,6 +114,8 @@ class FloatingInputService : Service() {
         super.onDestroy()
 
         windowManager.removeView(inputBox)
+
+        disposer.clear()
     }
 
 
