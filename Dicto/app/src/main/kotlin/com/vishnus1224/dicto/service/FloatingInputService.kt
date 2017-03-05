@@ -15,6 +15,7 @@ import android.view.WindowManager.LayoutParams.*
 import android.widget.EditText
 import android.widget.Toast
 import com.vishnus1224.dicto.event.copyText
+import com.vishnus1224.dicto.viewmodel.MainViewModel
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -29,6 +30,8 @@ class FloatingInputService : Service() {
 
     lateinit var inflater : LayoutInflater
 
+    lateinit var viewModel : MainViewModel
+
     val disposer = CompositeDisposable()
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -40,13 +43,15 @@ class FloatingInputService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-        setupServices();
+        setupServices()
 
         createInputBox()
 
-        listenForCopyEvent();
+        createViewModel()
 
+        listenForCopyEvent();
     }
+
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return Service.START_NOT_STICKY;
@@ -80,12 +85,19 @@ class FloatingInputService : Service() {
         windowManager.addView(inputBox, params)
     }
 
+
+    private fun createViewModel() {
+
+        viewModel = MainViewModel()
+
+    }
+
     private fun listenForCopyEvent() {
 
         //subscribe to the copy event to get notified when user copies a word from any app.
-        disposer.add(copyText(this).subscribe {copiedText ->
+        disposer.add(copyText(this).subscribe { copiedText ->
 
-            Toast.makeText(this, copiedText, Toast.LENGTH_SHORT).show()
+            viewModel.onCopyEventReceived(copiedText)
 
         })
 
@@ -114,6 +126,8 @@ class FloatingInputService : Service() {
         super.onDestroy()
 
         windowManager.removeView(inputBox)
+
+        viewModel.deInit()
 
         disposer.clear()
     }
