@@ -2,13 +2,10 @@ package com.vishnus1224.dicto.event
 
 import com.vishnus1224.dicto.provider.CopyEventProvider
 import io.reactivex.Observable
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
 import io.reactivex.observers.TestObserver
 import org.junit.Before
 import org.junit.Test
 
-import org.junit.Assert.*
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.verify
