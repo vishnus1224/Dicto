@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.vishnus1224.dicto"
         minSdkVersion 15
@@ -39,6 +39,7 @@ dependencies {
 
     testCompile "org.mockito:mockito-core:2.7.9"
     compile project(':data')
+    compile project(':monads')
 }
 repositories {
     mavenCentral()
