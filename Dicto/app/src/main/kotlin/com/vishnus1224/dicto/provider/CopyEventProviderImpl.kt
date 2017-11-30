@@ -15,7 +15,7 @@ class CopyEventProviderImpl(val context: Context) : CopyEventProvider {
 
             val clipBoard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
-            fun primaryClipChangedListener(){
+            fun primaryClipChangedListener() {
 
                 //get the first copied item from clipboard
                 val copiedText = clipBoard.primaryClip.getItemAt(0)

@@ -11,11 +11,9 @@ import io.reactivex.disposables.CompositeDisposable
  */
 class MainViewModel(val copyEventProvider: CopyEventProvider) : BaseViewModel{
 
-    val disposer : CompositeDisposable
+    private val disposer = CompositeDisposable()
 
     init {
-
-        disposer = CompositeDisposable()
 
         listenForCopyEvent()
 
@@ -33,10 +31,6 @@ class MainViewModel(val copyEventProvider: CopyEventProvider) : BaseViewModel{
 
 
 
-    override fun deInit() {
-
-        disposer.clear()
-
-    }
+    override fun deInit() = disposer.clear()
 
 }
